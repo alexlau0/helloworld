@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sam2-nodejs-web-deployment
+  labels:
+    app: sample2-nodejs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: sample2-nodejs
+  template:
+    metadata:
+      labels:
+        app: sample2-nodejs
+    spec:
+      containers:
+      - name: sample2-nodejs
+        image: node:latest
+        ports:
+        - containerPort: 5000
+        command:
+#         - sleep
+#         - "3600"
+        - node
+        - /usr/src/app/server2.js
+        volumeMounts:
+          - mountPath: /usr/src/app
+            name: serverjs2
+        env:
+          - name: NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName			  
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name			  
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP		  
+          - name: APP_VERSION
+            value: "1.2"
+      volumes:
+        - configMap:
+            name: simnodejsweb
+          name: serverjs2
+
+
+          
+#https://kubernetes.io/docs/tasks/inject-data-application/environment-variable-expose-pod-information/

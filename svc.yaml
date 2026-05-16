@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sam2-service
+spec:
+  selector:
+    app: sample2-nodejs
+  ports:
+  - protocol: TCP
+    port: 5001
+    targetPort: 5000
