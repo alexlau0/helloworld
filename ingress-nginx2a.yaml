@@ -15,4 +15,4 @@ spec:
           service:
             name: sam2-service
             port:
-              number: 5001
+              number: 5003
